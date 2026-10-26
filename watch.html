@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch - FableTorch</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#FFB800;--gold2:#FF8A00;--bg:#050507;--card:#141414;--border:#232323}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif}
+.nav{padding:12px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1A1A1A;position:sticky;top:0;background:#050507;z-index:10}
+.logo{font-family:'Poppins',sans-serif;font-weight:800;color:var(--gold);font-size:20px;text-decoration:none}
+.wrap{max-width:760px;margin:28px auto;padding:0 16px}
+.poster{aspect-ratio:16/9;background:#0D0D0D;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.poster img{width:100%;height:100%;object-fit:cover}
+.box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-top:16px;text-align:center}
+h1{font-family:'Poppins',sans-serif;font-size:22px}
+.muted{color:#9A9A9A;font-size:13px;margin:8px 0}
+.adbox{background:#0A0A0A;border:1px dashed #333;border-radius:12px;padding:14px;min-height:88px;display:grid;place-items:center;margin:14px 0}
+.circle{width:72px;height:72px;border-radius:50%;border:4px solid #222;border-top-color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:22px;margin:10px auto}
+.btn{width:100%;padding:15px;border-radius:999px;border:0;font-weight:800;font-size:16px;cursor:pointer}
+.btn-lock{background:#1E1E1E;color:#777}
+.btn-unlock{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#000;box-shadow:0 0 24px rgba(255,184,0,0.45);display:none;text-decoration:none;text-align:center}
+.row{display:flex;gap:10px;margin-top:12px}.row a{flex:1;padding:10px;border:1px solid #333;border-radius:999px;text-align:center;text-decoration:none;color:#fff;font-size:13px}
+.stars{font-size:22px;cursor:pointer;letter-spacing:4px}
+</style>
+</head>
+<body>
+<nav class="nav"><a href="index.html" class="logo">FableTorch</a><a href="index.html" style="color:#fff;text-decoration:none;border:1px solid #333;padding:8px 14px;border-radius:999px">← Explore</a></nav>
+<div class="wrap">
+  <div class="poster"><img id="thumb"></div>
+  <div class="box">
+    <h1 id="title">Loading...</h1>
+    <p class="muted" id="stats"></p>
+    <div class="adbox" id="adbox">Ad will appear here during 15s wait.<br>Your Adsterra Direct Link opens in new tab.</div>
+    <div class="circle" id="timer">15</div>
+    <button class="btn btn-lock" id="unlockBtn">🔒 Unlock Link - 15s</button>
+    <a id="watchBtn" class="btn btn-unlock" target="_blank">▶ Watch on YouTube (Unlisted)</a>
+    <p class="muted" style="font-size:12px;margin-top:8px">You will be redirected to YouTube • Link works only after unlock</p>
+    <div style="margin-top:16px;border-top:1px solid #232323;padding-top:14px">
+      <div class="muted">Rate this part</div>
+      <div class="stars" id="stars">☆☆☆☆☆</div>
+      <div class="muted" id="ratingInfo"></div>
+      <button onclick="reportMovie()" style="margin-top:10px;background:#1A1A1A;color:#fff;border:1px solid #333;padding:8px 14px;border-radius:999px;cursor:pointer">⚑ Report Broken Link</button>
+    </div>
+    <div class="row"><a href="#" onclick="history.back();return false">← Previous</a><a href="index.html">Next →</a></div>
+  </div>
+</div>
+<script>
+const ADSTERRA_DIRECT_LINK = "https://www.profitablecpmrate.com/REPLACE_WITH_YOUR_LINK";
+const BASE_MILLIONS = 1200000;
+const DATA = {
+  "echo1":{title:"THE ECHO - Part 1", thumb:"https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=900&q=80", yt:"https://www.youtube.com/watch?v=YOUR_ID1", views:34211},
+  "echo2":{title:"THE ECHO - Part 2", thumb:"https://images.unsplash.com/photo-1485846234645-a62644f84728?w=900&q=80", yt:"https://www.youtube.com/watch?v=YOUR_ID2", views:28100},
+  "abyss":{title:"THE ABYSS PROTOCOL", thumb:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=900&q=80", yt:"https://www.youtube.com/watch?v=YOUR_ID3", views:19120},
+  "crown":{title:"THE GOLDEN CROWN", thumb:"https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=900&q=80", yt:"https://www.youtube.com/watch?v=YOUR_ID4", views:45200},
+  "ember":{title:"EMBER CITY", thumb:"https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=900&q=80", yt:"https://www.youtube.com/watch?v=YOUR_ID5", views:22100},
+  "void":{title:"BEYOND THE VOID", thumb:"https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=900&q=80", yt:"https://www.youtube.com/watch?v=YOUR_ID6", views:31200},
+};
+function formatM(n){const v=n+BASE_MILLIONS;return(v/1000000).toFixed(1)+'M'}
+const id=new URLSearchParams(location.search).get('id')||'echo1'; const d=DATA[id]||DATA['echo1'];
+document.getElementById('title').textContent=d.title; document.getElementById('thumb').src=d.thumb;
+document.getElementById('stats').textContent=`👁 ${formatM(d.views*3)} views • ♥ ${formatM(d.views)} watchlists • ★ 4.8 ( ${formatM(8200)} ratings )`;
+let left=15, iv=null, unlocked=false;
+const unlockBtn=document.getElementById('unlockBtn'), watchBtn=document.getElementById('watchBtn'), timer=document.getElementById('timer'), adbox=document.getElementById('adbox');
+unlockBtn.onclick=()=>{
+  if(unlocked) return;
+  window.open(ADSTERRA_DIRECT_LINK,'_blank');
+  adbox.innerHTML="✓ Ad opened. Please wait <b>15 seconds</b>... Supporting FableTorch.";
+  unlockBtn.disabled=true; unlockBtn.textContent="⏳ Please wait...";
+  iv=setInterval(()=>{ left--; timer.textContent=left; if(left<=0){ clearInterval(iv); unlocked=true; timer.textContent="✓"; timer.style.borderTopColor="#00E676"; timer.style.color="#00E676"; unlockBtn.style.display="none"; watchBtn.style.display="block"; watchBtn.href=d.yt; adbox.innerHTML="✅ Unlocked! Click Watch on YouTube below."}},1000);
+};
+const stars=document.getElementById('stars'); let rated=0;
+stars.onclick=(e)=>{
+  const rect=stars.getBoundingClientRect(); const x=e.clientX-rect.left; const star=Math.ceil((x/rect.width)*5);
+  rated=star; stars.textContent="★★★★★".slice(0,star)+"☆☆☆☆☆".slice(0,5-star);
+  const total=8200+star; document.getElementById('ratingInfo').textContent=`You rated ${star}★ • Total: ${formatM(total)} ratings`;
+  localStorage.setItem('ft_rate_'+id, star);
+};
+function reportMovie(){ const r=prompt("Describe the issue (broken link, wrong video):"); if(r){ alert("Thanks! Report sent to admin. We will fix: "+r); localStorage.setItem('ft_report_'+id, r)}}
+</script>
+</body>
+</html>
