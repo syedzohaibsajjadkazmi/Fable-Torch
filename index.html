@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FableTorch - AI Cinematic Universe</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#FFB800;--gold2:#FF8A00;--bg:#050507;--card:#141414;--border:#232323;--muted:#9A9A9A}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif}
+a{color:inherit;text-decoration:none}
+.nav{position:sticky;top:0;z-index:50;background:rgba(5,5,7,0.88);backdrop-filter:blur(10px);border-bottom:1px solid #1A1A1A;display:flex;align-items:center;justify-content:space-between;padding:12px 5%}
+.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;color:var(--gold);display:flex;align-items:center;gap:8px}
+.logo img{height:32px;filter:drop-shadow(0 0 8px rgba(255,184,0,0.6))}
+.search{flex:0 1 380px;display:flex;gap:8px;background:#121212;border:1px solid var(--border);border-radius:999px;padding:10px 14px}
+.search input{flex:1;background:transparent;border:0;outline:0;color:#fff}
+.btn-gold{background:linear-gradient(90deg,var(--gold),var(--gold2));color:#000;font-weight:800;padding:11px 18px;border-radius:999px;border:0;cursor:pointer;box-shadow:0 0 18px rgba(255,184,0,0.4)}
+.btn-outline{border:1px solid #333;padding:10px 16px;border-radius:999px}
+.hero{position:relative;min-height:520px;display:flex;align-items:flex-end;padding:40px 5%;overflow:hidden;border-bottom:1px solid #1A1A1A}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#050507 0%,rgba(5,5,7,0.6) 50%,rgba(5,5,7,0.1) 100%),linear-gradient(0deg,#050507 0%,transparent 60%),url('banner.jpg');background-size:cover;background-position:center}
+.hero::after{content:'';position:absolute;inset:0;background:radial-gradient(600px 300px at 70% 30%,rgba(255,184,0,0.16),transparent 60%)}
+.hero-content{position:relative;max-width:640px;animation:up .6s ease}
+.hero h1{font-family:'Poppins',sans-serif;font-size:44px;line-height:1}
+.hero h1 em{color:var(--gold);font-style:normal}
+.hero p{color:var(--muted);margin:12px 0 20px;line-height:1.6}
+.section{padding:28px 5%}
+.section h2{font-family:'Poppins',sans-serif;font-size:20px;margin-bottom:14px;display:flex;gap:10px;align-items:center}
+.section h2::before{content:'';width:4px;height:18px;background:var(--gold);border-radius:99px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{padding:8px 14px;border-radius:999px;background:#121212;border:1px solid var(--border);cursor:pointer;font-size:13px}
+.chip.active{background:var(--gold);color:#000;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.search{display:none}}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:32px}.hero{min-height:460px}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:rgba(255,184,0,0.4);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+.thumb{aspect-ratio:16/9;position:relative;overflow:hidden;background:#0D0D0D}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:.3s}.card:hover .thumb img{transform:scale(1.06)}
+.badge{position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);padding:5px 8px;border-radius:999px;font-size:11px;font-weight:600}
+.heart{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.6);display:grid;place-items:center;border:1px solid rgba(255,255,255,0.15);font-size:14px}
+.heart.active{background:var(--gold);color:#000}
+.play{position:absolute;inset:0;display:grid;place-items:center;opacity:0;background:rgba(0,0,0,0.35);transition:.2s}.card:hover .play{opacity:1}
+.play span{width:46px;height:46px;background:var(--gold);color:#000;border-radius:50%;display:grid;place-items:center}
+.card-body{padding:12px}
+.card-body h3{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{font-size:12px;color:var(--muted);display:flex;gap:10px;margin-top:4px}
+.footer{padding:24px 5%;border-top:1px solid #1A1A1A;color:var(--muted);text-align:center;font-size:13px}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="logo"><img src="logo.png" onerror="this.style.display='none'"><span>FableTorch</span></a>
+  <label class="search">🔍 <input id="q" placeholder="Search movies..."></label>
+  <div style="display:flex;gap:10px;align-items:center">
+    <a href="auth.html" class="btn-outline" id="authLink">Continue with Google</a>
+    <a href="index.html" class="btn-gold" style="padding:8px 14px">Explore</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-content">
+    <h1>Stories Lit By <em>FableTorch</em></h1>
+    <p>High-quality AI Cinematic Movies. 30s teaser on Facebook → Unlock full part here in 15s (Adsterra) → Watch Unlisted on YouTube.</p>
+    <button class="btn-gold" onclick="document.getElementById('latest').scrollIntoView({behavior:'smooth'})">▶ Explore Library</button>
+    <a href="auth.html" class="btn-outline" style="margin-left:8px">☆ My Watchlist</a>
+    <p style="color:#888;font-size:12px;margin-top:10px">👁 <span id="visitorCount">1.8M</span> visitors • 🎬 <span id="totalViews">4.3M</span> views</p>
+  </div>
+</section>
+<section class="section" id="latest">
+  <h2>Latest Parts</h2>
+  <div class="chips" id="chips">
+    <div class="chip active" onclick="filterBy('all',this)">All</div>
+    <div class="chip" onclick="filterBy('Sci-Fi',this)">Sci-Fi</div>
+    <div class="chip" onclick="filterBy('Horror',this)">Horror</div>
+    <div class="chip" onclick="filterBy('Fantasy',this)">Fantasy</div>
+    <div class="chip" onclick="filterBy('Action',this)">Action</div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+<footer class="footer">© 2026 FableTorch • fabletorch.com • Facebook → Website → YouTube (Unlisted)</footer>
+<script>
+const BASE_MILLIONS = 1200000;
+const MOVIES = [
+  {id:"echo1", title:"THE ECHO - Part 1", genre:"Sci-Fi", parts:8, views:34211, thumb:"https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80"},
+  {id:"echo2", title:"THE ECHO - Part 2", genre:"Sci-Fi", parts:8, views:28100, thumb:"https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80"},
+  {id:"abyss", title:"THE ABYSS PROTOCOL", genre:"Horror", parts:5, views:19120, thumb:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&q=80"},
+  {id:"crown", title:"THE GOLDEN CROWN", genre:"Fantasy", parts:6, views:45200, thumb:"https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=600&q=80"},
+  {id:"ember", title:"EMBER CITY", genre:"Action", parts:4, views:22100, thumb:"https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=600&q=80"},
+  {id:"void", title:"BEYOND THE VOID", genre:"Sci-Fi", parts:7, views:31200, thumb:"https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=600&q=80"},
+];
+function formatM(n){ const v=n+BASE_MILLIONS; if(v>=1000000) return (v/1000000).toFixed(1)+'M'; if(v>=1000) return (v/1000).toFixed(1)+'K'; return v}
+function getWatchlist(){ return JSON.parse(localStorage.getItem('ft_watchlist')||'[]')}
+function toggleHeart(e,id){ e.stopPropagation(); let w=getWatchlist(); w=w.includes(id)?w.filter(x=>x!==id):[...w,id]; localStorage.setItem('ft_watchlist',JSON.stringify(w)); render(currentList) }
+let currentList=MOVIES;
+const grid=document.getElementById('grid');
+function render(list){ currentList=list; const wl=getWatchlist(); grid.innerHTML=list.map(m=>`
+  <div class="card" onclick="location.href='watch.html?id=${m.id}'">
+    <div class="thumb"><img src="${m.thumb}" loading="lazy"><div class="badge">${m.genre} • ${m.parts} Parts</div><div class="heart ${wl.includes(m.id)?'active':''}" onclick="toggleHeart(event,'${m.id}')">${wl.includes(m.id)?'♥':'♡'}</div><div class="play"><span>▶</span></div></div>
+    <div class="card-body"><h3>${m.title}</h3><div class="><span>★ 4.8</span><span>♥ ${formatM(m.views)}</span><span>👁 ${formatM(m.views*3)}</span></div></div>
+  </div>`).join('')}
+function filterBy(g,el){ document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); el.classList.add('active'); render(g==='all'?MOVIES:MOVIES.filter(m=>m.genre===g))}
+document.getElementById('q').addEventListener('input',e=>{ const q=e.target.value.toLowerCase(); render(MOVIES.filter(m=>m.title.toLowerCase().includes(q)||m.genre.toLowerCase().includes(q))) })
+document.getElementById('visitorCount').textContent=formatM(580000); document.getElementById('totalViews').textContent=formatM(3100000);
+const user=JSON.parse(localStorage.getItem('ft_user')||'null'); if(user){ document.getElementById('authLink').textContent='Hi, @'+user.username; }
+render(MOVIES);
+</script>
+</body>
+</html>
