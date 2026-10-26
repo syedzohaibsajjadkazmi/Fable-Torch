@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join FableTorch</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+:root{--gold:#FFB800;--gold2:#FF8A00;--bg:#050507;--card:#141414;--border:#232323}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif;display:grid;place-items:center;min-height:100vh;padding:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:420px;width:100%;text-align:center}
+h1{font-family:'Poppins',sans-serif;font-size:22px} .muted{color:#9A9A9A;font-size:13px;margin:8px 0 16px}
+.input{width:100%;background:#0A0A0A;border:1px solid #333;border-radius:10px;padding:12px;color:#fff;margin-top:10px;outline:0}
+.status{font-size:12px;margin-top:6px;text-align:left}
+.ok{color:#00E676} .bad{color:#FF5252}
+.btn-gold{width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#000;border:0;padding:12px;border-radius:999px;font-weight:800;margin-top:14px;cursor:pointer}
+select{width:100%;background:#0A0A0A;border:1px solid #333;border-radius:10px;padding:12px;color:#fff;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="card" id="step1">
+  <h1>Welcome to FableTorch</h1>
+  <p class="muted">Guests can watch without account. Members get Watchlist & Ratings.</p>
+  <div id="g_id_onload" data-client_id="REPLACE_WITH_YOUR_GOOGLE_CLIENT_ID" data-callback="handleGoogle"></div>
+  <div class="g_id_signin" data-type="standard" data-theme="outline" data-size="large" data-width="360"></div>
+  <button onclick="mockGoogle()" style="width:100%;background:#fff;color:#000;border:0;padding:12px;border-radius:999px;font-weight:700;cursor:pointer;margin-top:12px;display:flex;justify-content:center;align-items:center;gap:8px"><img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18"> Continue with Google (Demo)</button>
+  <p class="muted" style="margin-top:12px">By continuing you agree to our Terms</p>
+  <a href="index.html" style="color:#888;font-size:13px">← Back to Explore (Continue as Guest)</a>
+</div>
+<div class="card" id="step2" style="display:none">
+  <h1>Choose your Username</h1>
+  <p class="muted">Like YouTube: @username</p>
+  <div style="display:flex;align-items:center;background:#0A0A0A;border:1px solid #333;border-radius:10px;padding:0 12px;margin-top:10px">
+    <span style="color:#888">@</span><input id="username" placeholder="fablefan123" style="flex:1;background:transparent;border:0;outline:0;color:#fff;padding:12px" oninput="checkUsername()">
+  </div>
+  <div id="userStatus" class="status"></div>
+  <select id="country"><option value="">Select Country</option><option>Bangladesh</option><option>India</option><option>Pakistan</option><option>United States</option><option>United Kingdom</option><option>Canada</option><option>Philippines</option><option>Indonesia</option><option>Malaysia</option><option>Other</option></select>
+  <button class="btn-gold" id="finishBtn" onclick="finish()" disabled>Create Account</button>
+</div>
+<script>
+const taken = ["fabletorch","admin","torch","fable","user","test"];
+function mockGoogle(){ document.getElementById('step1').style.display='none'; document.getElementById('step2').style.display='block'; localStorage.setItem('ft_google', JSON.stringify({email:"demo@gmail.com"}));}
+function handleGoogle(resp){ document.getElementById('step1').style.display='none'; document.getElementById('step2').style.display='block';}
+let avail=false;
+function checkUsername(){
+  const v=document.getElementById('username').value.trim().toLowerCase();
+  const s=document.getElementById('userStatus'), btn=document.getElementById('finishBtn');
+  if(v.length<3){ s.textContent="Username must be 3+ characters"; s.className="status bad"; avail=false; btn.disabled=true; return}
+  if(!/^[a-z0-9_.]+$/.test(v)){ s.textContent="Only letters, numbers, _ and . allowed"; s.className="status bad"; avail=false; btn.disabled=true; return}
+  if(taken.includes(v)){ s.textContent="❌ @"+v+" is not available"; s.className="status bad"; avail=false; btn.disabled=true; return}
+  s.textContent="✅ @"+v+" is available"; s.className="status ok"; avail=true; validate();
+}
+function validate(){ const c=document.getElementById('country').value; document.getElementById('finishBtn').disabled=!(avail && c)}
+document.getElementById('country').addEventListener('change', validate);
+function finish(){ const u=document.getElementById('username').value.trim(), c=document.getElementById('country').value; const g=JSON.parse(localStorage.getItem('ft_google')||'{}'); localStorage.setItem('ft_user', JSON.stringify({username:u, country:c, email:g.email})); alert("Welcome @"+u+" from "+c+"!"); location.href="index.html"; }
+const ex=JSON.parse(localStorage.getItem('ft_user')||'null'); if(ex){ document.getElementById('step1').innerHTML=`<h1>Hi @${ex.username}</h1><p class="muted">From ${ex.country}</p><button onclick="localStorage.removeItem('ft_user');location.reload()" style="width:100%;background:#fff;color:#000;border:0;padding:12px;border-radius:999px;font-weight:700;cursor:pointer">Logout</button><br><a href='index.html' style='color:#FFB800'>→ Go to Explore</a>`; }
+</script>
+</body>
+</html>
